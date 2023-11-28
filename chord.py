@@ -92,7 +92,7 @@ class Local(object):
 			response = f"Replicated file with {key} uploaded in node_id {self.id()}"
 
 		# this is when the upload is in correct node but not replicated
-		elif node.address_.port == self.address_.port:
+		elif (node.address_.ip == self.address_.ip) and (node.address_.port == self.address_.port):
 			self.data[key] = msg
 			upload_file(key,msg)			
 			response = f"file with {key} uploaded in node_id {self.id()}"
@@ -102,8 +102,10 @@ class Local(object):
 			#send command to replicate
 			command = "replicated_upload "
 			command += str(key) + " " + msg
-			response += self.send_command(succ_node.address_.ip,succ_node.address_.port,command)
-			response += self.send_command(pred_node.address_.ip,pred_node.address_.port,command)
+			if succ_node != None:
+				response += self.send_command(succ_node.address_.ip,succ_node.address_.port,command)
+			if pred_node != None:
+				response += self.send_command(pred_node.address_.ip,pred_node.address_.port,command)
 
 		else:
 			command = "upload "
@@ -114,7 +116,7 @@ class Local(object):
 		
 	def download(self,key):
 		node = self.find_successor(key)
-		if node.address_.port == self.address_.port:
+		if (node.address_.ip == self.address_.ip) and (node.address_.port == self.address_.port):
 			response = download_file(key)
 		else:
 			command = "download " + str(key)
