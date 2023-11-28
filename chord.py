@@ -102,7 +102,7 @@ class Local(object):
 			#send command to replicate
 			command = "replicated_upload "
 			command += str(key) + " " + msg
-			if succ_node != None and succ_node.address_.ip != self.address_.ip and succ_node.address_port != self.address_.port:
+			if succ_node != None and succ_node.address_.ip != self.address_.ip and succ_node.address_.port != self.address_.port:
 				response += self.send_command(succ_node.address_.ip,succ_node.address_.port,command)
 			if pred_node != None and pred_node.address_.ip != self.address_.ip and pred_node.address_.port != self.address_.port:
 				response += self.send_command(pred_node.address_.ip,pred_node.address_.port,command)
