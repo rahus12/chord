@@ -27,5 +27,3 @@ class Address:
 
     def __str__(self):
         return "[\"%s\", %s]" % (self.ip, self.port)
-
-
