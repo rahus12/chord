@@ -74,17 +74,22 @@ class Local(object):
 		# initial simple storage in hashmap itself
 		self.data = dict()
 
-	def send_command(self,ip,port,command):
+	# need to remove response when uploading to avoid deadlocks 
+	def send_command(self,ip,port,command,ud = "upload"):
 		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		s.connect((ip, port))
 		s.sendall(command.encode() + b"\r\n")
-		response = s.recv(10000).decode()
-		s.close()
-		return response
+		if ud == "download":
+			response = s.recv(10000).decode()
+			s.close()
+			return response
+		else:
+			s.close()
+			return ud
 		
 	def upload(self,key:int,msg:str,replicated=0):
 		node = self.find_successor(key)
-		
+		response = ""
 		#this assume this is replicated and the ip,port are correct so simply upload the file
 		if replicated == 1:
 			self.data[key] = msg
@@ -96,21 +101,21 @@ class Local(object):
 			self.data[key] = msg
 			upload_file(key,msg)			
 			response = f"file with {key} uploaded in node_id {self.id()}"
-			succ_node = self.successor()
+			succ_node = self.successor()			
 			pred_node = self.predecessor()
-
 			#send command to replicate
 			command = "replicated_upload "
 			command += str(key) + " " + msg
-			if succ_node != None and (succ_node.address_.ip != self.address_.ip and succ_node.address_.port != self.address_.port):
-				response += self.send_command(succ_node.address_.ip,succ_node.address_.port,command)
-			if pred_node != None and (pred_node.address_.ip != self.address_.ip and pred_node.address_.port != self.address_.port):
-				response += self.send_command(pred_node.address_.ip,pred_node.address_.port,command)
+			# if succ_node != None and not (succ_node.address_.ip == self.address_.ip and succ_node.address_.port == self.address_.port):
+			response += self.send_command(succ_node.address_.ip,succ_node.address_.port,command,"forwarded to successor")
+			
+			# if pred_node != None and not (pred_node.address_.ip == self.address_.ip and pred_node.address_.port == self.address_.port):
+			response += self.send_command(pred_node.address_.ip,pred_node.address_.port,command,"forwarded to predecessor")
 
 		else:
 			command = "upload "
 			command += str(key) + " " + msg
-			response = self.send_command(node.address_.ip, node.address_.port,command)
+			response = self.send_command(node.address_.ip, node.address_.port,command,"fowarded to next node")
 		return response
 
 		
