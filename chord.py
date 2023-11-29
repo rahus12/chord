@@ -368,6 +368,8 @@ class Local(object):
 				self.notify(Remote(npredecessor))
 			if command == 'get_successors':
 				result = json.dumps(list(self.get_successors()))
+			if command == 'show_fingers':
+				result = json.dumps(self.display_finger_table())
 
 			# or it could be a user specified operation
 			for t in self.command_:
@@ -389,6 +391,13 @@ class Local(object):
 
 	def unregister_command(self, cmd):
 		self.command_ = filter(lambda t: True if t[0] != cmd else False, self.command_)
+
+	def display_finger_table(self):
+		fingers = list()
+		for node in self.successors_:
+			fingers.append([node.address_.ip, node.address_.port, node.id()])
+		return fingers
+
 
 if __name__ == "__main__":
 	import sys
