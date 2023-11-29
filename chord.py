@@ -125,7 +125,7 @@ class Local(object):
 			response = download_file(key)
 		else:
 			command = "download " + str(key)
-			response = self.send_command(node.address_.ip, node.address_.port,command)
+			response = self.send_command(node.address_.ip, node.address_.port,command,"download")
 			print("Response : '%s'" % response)
 		return response
 		
