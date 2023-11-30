@@ -8,12 +8,13 @@ This repository contains an implementation of a Chord network in Python with tex
 - `$>python create_chord.py $N_CHORD_NODES` to run a DHT that lets you ask questions to random members.
 
 ### Number of supported commands?
+- `show_fingers` to display finger_table of current node
 - `get_successor` to get the nearest successor node from current node
 - `get_predecessor` to get the nearest predecessor node from current node
 - `find_successor $key` to find the nearest successor node in which the key can be stored
+- `add_node` to add new node to current chord system
 - `upload $key $text` to upload the file in node
 - `download $key $text` to upload the file in node
-- `show_fingers` to display finger_table of current node
 - `shutdown` to shutdown one node in chord randomly
 
 The behaviour of the network can be greatly modified by setting the appropriate values 
