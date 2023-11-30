@@ -169,7 +169,7 @@ class Local(object):
 
 		if remote_address:
 			remote = Remote(remote_address)
-			self.finger_[0] = remote.find_successor(self.id())
+			self.finger_[0] = remote.find_successor(self.id(1))
 		else:
 			self.finger_[0] = self
 
