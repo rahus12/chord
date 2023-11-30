@@ -1,4 +1,5 @@
 from settings import SIZE
+import hashlib
 
 # Helper function to determine if a key falls within a range
 def inrange(c, a, b):
@@ -17,7 +18,7 @@ class Address:
         self.port = int(port)
 
     def __hash__(self):
-        return hash("%s:%s" % (self.ip, self.port)) % SIZE
+        return int(hashlib.sha256(str(self).encode()).hexdigest(), 16)
 
     def __lt__(self, other):
         return (self.ip, self.port) < (other.ip, other.port)
