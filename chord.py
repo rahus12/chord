@@ -398,7 +398,6 @@ class Local(object):
 			fingers.append([node.address_.ip, node.address_.port, node.id()])
 		return fingers
 
-
 if __name__ == "__main__":
 	import sys
 	if len(sys.argv) == 2:
