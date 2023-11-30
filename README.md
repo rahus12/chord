@@ -11,7 +11,6 @@ This repository contains an implementation of a Chord network in Python with tex
 - `get_successor $node_id` to get the nearest successor node
 - `get_predecessor $node_id` to get the nearest predecessor node
 - `find_successor $key` to find the nearest successor node in which the key can be stored
-- `find_predecessor $key` to find the nearest predecessor node in which the key can be stored
 - `upload $key $text` to upload the file in node
 - `download $key $text` to upload the file in node
 - `show_fingers` to display finger_table of current node
